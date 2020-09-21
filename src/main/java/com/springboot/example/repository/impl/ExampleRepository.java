@@ -18,19 +18,23 @@ public class ExampleRepository implements IExampleRepository {
 
     @Override
     public void create(Example example) {
-        jdbcTemplate.update("insert into example\n" +
+        jdbcTemplate.update("insert into example(name, version, insertdate) \n" +
                 "values(?, ?,CURRENT_TIMESTAMP());"
-                ,new Object[]{
-                        example.getName(),
-                        example.getVersion()
-            });
+                , example.getName(),
+                example.getVersion());
     }
     @Override
     public Example findById(Integer id) {
-       List<Example> example= jdbcTemplate.query("SELECT ex.ID,ex.NAME,ex.INSERTDATE,ex.VERSION" +
-                       " From example ex Where ex.id =?"
-               ,new Object[]{id}
-               ,new ExampleRowMapper());
-        return example.get(0);
+
+        try
+        {
+            List<Example> example = jdbcTemplate.query("SELECT TOP 1 ex.ID,ex.NAME,ex.INSERTDATE,ex.VERSION" +
+                            " From example ex Where ex.id =?"
+                    ,new Object[]{id}
+                    ,new ExampleRowMapper());
+            return example.get(0);
+        }catch (Exception e){
+            return new Example();
+        }
     }
 }
