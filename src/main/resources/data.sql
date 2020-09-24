@@ -3,3 +3,8 @@ insert into example
 values(1,'Ranga', '2.0.3',CURRENT_TIMESTAMP());
 insert into example
 values(2,'Ravi', '2.0.4',CURRENT_TIMESTAMP());
+
+insert into usuario
+values(null,'jj','cjjc','hhh');
+insert into usuario
+values(null,'aa','aaa','aaa');
