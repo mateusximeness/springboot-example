@@ -38,14 +38,14 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public void update(Integer id) {
-        repository.update(id);
+    public void update(Integer id, Usuario usuario) {
+        repository.update(id,usuario);
     }
     @Override
     public void delete(Integer id){
         repository.delete(id);
     }
-    @Override
+
     public void delete(String cpf){
         repository.delete(cpf);
     }

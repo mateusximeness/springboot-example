@@ -12,7 +12,7 @@ public interface IUsuarioService {
 
     public void  create(Usuario usuario);
 
-    public void update(Integer id);
+    public void update(Integer id, Usuario usuario);
 
     public void delete(Integer id);
 

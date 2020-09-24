@@ -26,8 +26,11 @@ public class UsuarioController {
     public ResponseEntity<List<Usuario>> findAll() {
         List<Usuario> list = service.findAll();
 
-
-        return ResponseEntity.ok().body(list);
+        if (list!=null) {
+            return ResponseEntity.ok().body(list);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(value = "/usuario/{id}")
@@ -37,36 +40,60 @@ public class UsuarioController {
             response=service.findById(id);
 
         }
+        if (response!=null) {
+            return new ResponseEntity<Usuario>(response, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
 
-        return new ResponseEntity<Usuario>(response, HttpStatus.OK);
     }
 
     @PostMapping(value = "/usuario")
     public ResponseEntity<HttpStatus> create(@RequestBody Usuario usuario){
         service.create(usuario);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        if (usuario!=null) {
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @PutMapping(value="/usuario/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable(value="id") Integer id,
                                             @RequestBody Usuario usuario) {
 
-        service.update(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        service.update(id,usuario);
+        if (usuario!=null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @DeleteMapping(value="/usuario/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable(value="id") Integer id) {
 
         service.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (id!=null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @DeleteMapping(value="/usuario/cpf/{cpf}")
     public ResponseEntity<HttpStatus> delete(@PathVariable(value="cpf") String cpf) {
 
         service.delete(cpf);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (cpf!=null) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 
 

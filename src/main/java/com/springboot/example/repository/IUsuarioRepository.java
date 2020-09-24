@@ -10,7 +10,7 @@ public interface IUsuarioRepository {
     public Usuario findById(Integer id);
     public List<Usuario> findAll();
 
-    public void update(Integer id);
+    public void update(Integer id, Usuario usuario);
     public void delete(Integer id);
     public void delete(String cpf);
 
