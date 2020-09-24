@@ -37,6 +37,7 @@ public class UsuarioRepository implements IUsuarioRepository {
     @Override
     public void update(Integer id, Usuario usuario) {
         Usuario user =findById(id);
+        
          usuario.setId(user.getId());
 
         if (usuario!=null) {
