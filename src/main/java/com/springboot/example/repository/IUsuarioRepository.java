@@ -3,6 +3,7 @@ package com.springboot.example.repository;
 import com.springboot.example.domain.Usuario;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Date;
 import java.util.List;
 
 public interface IUsuarioRepository {
@@ -13,6 +14,7 @@ public interface IUsuarioRepository {
     public void update(Integer id, Usuario usuario);
     public void delete(Integer id);
     public void delete(String cpf);
+    public Usuario findByData(String data);
 
 
 

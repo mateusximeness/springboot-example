@@ -16,5 +16,6 @@ public class Usuario {
     private String nome;
     private String CPF;
     private String email;
-    //private Date datanasc;
+    private Date datanasc;
+
 }

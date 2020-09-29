@@ -15,6 +15,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.yaml.snakeyaml.events.Event;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -25,12 +27,13 @@ public class UsuarioRepository implements IUsuarioRepository {
 
     @Override
     public void create(Usuario usuario) {
-        jdbcTemplate.update("insert into usuario(nome, CPF, email) \n" +
-                "values(?, ?,?);"
+        jdbcTemplate.update("insert into usuario(nome, CPF, email, DATANASC) " +
+                "values(?, ?,?, ?);"
                 ,
                 usuario.getNome(),
                 usuario.getCPF(),
-                usuario.getEmail());
+                usuario.getEmail(),
+                usuario.getDatanasc());
 
 
     }
@@ -42,11 +45,12 @@ public class UsuarioRepository implements IUsuarioRepository {
 
         if (usuario!=null) {
             jdbcTemplate.update("UPDATE usuario "
-                            + "SET NOME =?, CPF=?, EMAIL=? WHERE ID=?"
+                            + "SET NOME =?, CPF=?, EMAIL=? , DATANASC=? WHERE ID=?"
                     ,
                     usuario.getNome(),
                     usuario.getCPF(),
                     usuario.getEmail(),
+                    usuario.getDatanasc(),
                     id);
         }
     }
@@ -76,7 +80,7 @@ public class UsuarioRepository implements IUsuarioRepository {
 
         try
         {
-            List<Usuario> usuario = jdbcTemplate.query("SELECT TOP 1 ID, NOME, CPF, EMAIL" +
+            List<Usuario> usuario = jdbcTemplate.query("SELECT TOP 1 ID, NOME, CPF, EMAIL, DATANASC" +
                             " From USUARIO Where id =?"
                     ,new Object[]{id}
                     ,new UsuarioRowMapper());
@@ -87,8 +91,25 @@ public class UsuarioRepository implements IUsuarioRepository {
     }
 
     @Override
+    public Usuario findByData(String data) {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        try
+        { java.sql.Date datanasc = new java.sql.Date(formato.parse(data).getTime());
+            List<Usuario> usuario = jdbcTemplate.query("SELECT TOP 1 ID, NOME, CPF, EMAIL, DATANASC" +
+                            " From USUARIO Where  DATANASC=?"
+                    ,new Object[]{datanasc}
+                    ,new UsuarioRowMapper());
+            return usuario.get(0);
+        }catch (Exception e){
+            return new Usuario();
+        }
+    }
+
+    @Override
     public List<Usuario> findAll() {
-        List<Usuario> usuario =  jdbcTemplate.query("SELECT ID, NOME , CPF, EMAIL FROM USUARIO "
+        List<Usuario> usuario =  jdbcTemplate.query("SELECT ID, NOME , CPF, EMAIL, DATANASC FROM USUARIO "
         , new UsuarioRowMapper());
 
         return usuario;

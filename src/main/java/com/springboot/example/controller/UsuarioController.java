@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -90,6 +92,23 @@ public class UsuarioController {
         service.delete(cpf);
         if (cpf!=null) {
             return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+      @GetMapping(value = "/usuario/data/{datanasc}")
+
+    public ResponseEntity<Usuario> findByData(@PathVariable(value = "datanasc") String data) {
+
+        Usuario response = null;
+        if (data != null) {
+            response=service.findByData(data);
+
+        }
+        if (response!=null) {
+            return new ResponseEntity<Usuario>(response, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
