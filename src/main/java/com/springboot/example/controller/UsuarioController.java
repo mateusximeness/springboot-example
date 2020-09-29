@@ -98,7 +98,7 @@ public class UsuarioController {
 
     }
 
-      @GetMapping(value = "/usuario/data/{datanasc}")
+      @GetMapping(value = "/usuario/nascimento/{datanasc}")
 
     public ResponseEntity<Usuario> findByData(@PathVariable(value = "datanasc") String data) {
 
